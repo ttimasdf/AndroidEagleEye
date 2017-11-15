@@ -4,8 +4,9 @@
 #include <jni.h>
 #include <stdio.h>
 #include <dlfcn.h>
-#include <stdbool.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 char* lib_path = "/data/data/com.mindmac.eagleeye/lib/libeagleeyenative.so";
@@ -13,7 +14,7 @@ char* lib_path = "/data/data/com.mindmac.eagleeye/lib/libeagleeyenative.so";
 LIB_HOOK_INFO_NODE* custom_lib_hook_info_root = NULL;
 HOOKED_INFO_NODE* hooked_info_root = NULL;
 
-Java_com_mindmac_eagleeye_NativeEntry_initSystemNativeHook( JNIEnv* env, jobject this )
+void Java_com_mindmac_eagleeye_NativeEntry_initSystemNativeHook( JNIEnv* env, jobject this )
 {
 	LIB_HOOK_INFO_NODE* lib_hook_info_root = build_hook_info_list(lib_path, "system_hook_info");
 	if(lib_hook_info_root == NULL){
@@ -43,7 +44,7 @@ Java_com_mindmac_eagleeye_NativeEntry_initSystemNativeHook( JNIEnv* env, jobject
 	}
 }
 
-Java_com_mindmac_eagleeye_NativeEntry_initCustomNativeHook(JNIEnv* env, jobject this, jstring lib_name){
+void Java_com_mindmac_eagleeye_NativeEntry_initCustomNativeHook(JNIEnv* env, jobject this, jstring lib_name){
 	const char* lib_name_native = (*env)->GetStringUTFChars(env, lib_name, 0);
 	if(custom_lib_hook_info_root == NULL)
 		custom_lib_hook_info_root = build_hook_info_list(lib_path, "custom_hook_info");

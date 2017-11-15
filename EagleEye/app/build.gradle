@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.1'
 
     defaultConfig {
         applicationId "com.mindmac.eagleeye"
@@ -11,6 +11,7 @@ android {
 
         ndk {
             moduleName "eagleeyenative"
+            abiFilters 'armeabi-v7a'
         }
     }
 
@@ -19,6 +20,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
     }
 }
 
